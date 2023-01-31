@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$comment": "https://docs.skylounge.io/developing-blueprints/",
+  "$id": "https://github.com/sky-lounge/public-skylounge-library/schemas/blueprint.schema.json",
+  "title": "blueprint",
+  "description": "Defines the automation applied to a repository. Blueprints leverage one or more workflow templates.",
+  "type": "object",
+  "properties": {
+    "display-name": {
+      "type": "string",
+      "description": "The unique name of the blueprint, by which it may be referenced and invoked in the Dashboard."
+    },
+    "description": {
+      "type": "string",
+      "description": "Short description of the blueprint, which is shown in the Dashboard. May contain markdown."
+    },
+    "documentation": {
+      "type": "string",
+      "description": "Longer description of the blueprint with additional detail. May contain markdown."
+    },
+    "weight": {
+      "type": "integer",
+      "description": "An integer to help sort blueprints in the Dashboard."
+    },
+    "tags": {
+      "type": "array",
+      "description": "Optional way to provide a quick visual reference to blueprint users.\nValid tags are:\n - gcp \n - aws \n - azure \n - demo \n - container-build \n - virus-scan \n - penetration-test",
+      "items": {
+        "type": "string",
+        "enum": [ "aws", "azure", "container-build", "demo", "gcp", "penetration-test", "virus-scan" ]
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "workflow-templates": {
+      "type": "array",
+      "description": "An array of one or more workflows that will be generated when using this blueprint.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the workflow."
+          },
+          "description": {
+            "type": "string",
+            "description": "Short description of what the workflow does. May contain markdown."
+          },
+          "documentation": {
+            "type": "string",
+            "description": "Longer explanation of what the workflow does. May contain markdown."
+          },
+          "uri": {
+            "type": "uri",
+            "description": "The URI in GitHub of the workflow template used to generate the workflow."
+          },
+          "branch": {
+            "type": "string",
+            "description": "The repository branch on which the workflow operates."
+          },
+          "icon": {
+            "type": "string",
+            "description": "Optional icon code from either https://icons.getbootstrap.com or https://fontawesome.com/icons or https://fontawesome.com/icons to provide a quick visual reference of the workflow for blueprint users."
+          },
+          "required": [ "uri", "branch" ],
+          "uniqueItems": true
+        }
+      },
+      "minItems": 1
+    }
+  },
+  "required": [ "display-name", "description", "workflow-templates"]
+}
