@@ -1,14 +1,86 @@
-blueprint-uri: sky-lounge/public-skylounge-library/blueprints/hello-skylounge/blueprint.yml
-
-workflows:
-  - workflow: hello
-    jobs:
-      - job: say-hello
-        steps:
-          - step: say-hello
-            uri:
-              # Specify the URI to the step to in your fork to say hello. This should be
-              # <YOUR-ORG>/hello/skylounge/step/custom-hello-step.yml where <YOUR-ORG> is the org you forked
-              # the hello repo into. Example: spgreenberg/hello/skylounge/step/custom-hello-step.yml
-        params:
-          name: # The name to say hello to. Example: Steve
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$comment": "https://docs.skylounge.io/developing-blueprints/skyloungeyml/",
+  "$id": "https://github.com/sky-lounge/public-skylounge-library/schemas/skylounge.schema.json",
+  "title": "skylounge.yml",
+  "description": "Configures the automation applied to a repository. The `skylounge.yml` specifies the `blueprint.yml` of workflows to apply. For any workflows that require configuration of `skylounge-job`s, `skylounge-step`s, or `parameters`, it also provides these. Workflows that do not require such configuration (*i.e.*, are \"pure\" [GitHub Actions]() without `SkyLounge` extensions) do not need to be included.",
+  "type": "object",
+  "properties": {
+    "blueprint-uri": {
+      "type": "uri",
+      "description": "The URI in GitHub of the `blueprint.yml` file for this repository. For example: `sky-lounge/public-skylounge-library/blueprints/hello-skylounge/blueprint.yml`."
+    },
+    "workflows": {
+      "type": "array",
+      "description": "An array of workflows that require configuration. Workflows that do not require configuration do not need to be listed here.",
+      "items": {
+        "type": "object",
+        "description": "Provides configuration for a single workflow.",
+        "properties": {
+          "workflow": {
+            "type": "string",
+            "description": "Name of the workflow to be configured."
+          },
+          "jobs": {
+            "type": "array",
+            "description": "An array of jobs in the workflow to be configured.",
+            "items": {
+              "type": "object",
+              "description": "Configuration for a single job.",
+              "properties": {
+                "job": {
+                  "type": "string",
+                  "description": "Name of the job to be configured.",
+                  "minLength": 1
+                },
+                "steps": {
+                  "type": "array",
+                  "description": "An array of steps that require configuration. Steps that do not require configuration do not need to be listed here.",
+                  "items": {
+                    "type": "object",
+                    "description": "Configuration for a single step.",
+                    "properties": {
+                      "step": {
+                        "type": "string",
+                        "description": "Name of the step to be configured.",
+                        "minLength": 1
+                      },
+                      "uri": {
+                        "type": "uri",
+                        "description": "URI in GitHub defining the `skylounge-step` to be applied."
+                      },
+                      "params": {
+                        "type": "object",
+                        "description": "A dictionary of parameters to be configured for this step. Parameter names and values can be any string.",
+                        "patternProperties": {
+                          "..*": "string"
+                        }
+                      },
+                      "required": [ "step", "uri"]
+                    }
+                  },
+                  "uniqueItems": true
+                }
+              }
+            },
+            "params": {
+              "type": "object",
+              "description": "A dictionary of parameters to be configured for this job. Parameter names and values can be any string.",
+              "patternProperties": {
+                "..*": "string"
+              }
+            },
+            "uniqueItems": true
+          }
+        }
+      }
+    },
+    "params": {
+      "type": "object",
+      "description": "A dictionary of global parameters to be configured. Parameter names and values can be any string.",
+      "patternProperties": {
+        "..*": "string"
+      }
+    },
+    "required": [ "uri" ]
+}

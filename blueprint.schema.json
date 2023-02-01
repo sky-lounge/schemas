@@ -2,13 +2,13 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$comment": "https://docs.skylounge.io/developing-blueprints/",
   "$id": "https://github.com/sky-lounge/public-skylounge-library/schemas/blueprint.schema.json",
-  "title": "blueprint",
-  "description": "Defines the automation applied to a repository. Blueprints leverage one or more workflow templates.",
+  "title": "blueprint.yml",
+  "description": "Defines the automation applied to a repository by specifying one or more workflow templates that may be applied.",
   "type": "object",
   "properties": {
     "display-name": {
       "type": "string",
-      "description": "The unique name of the blueprint, by which it may be referenced and invoked in the Dashboard."
+      "description": "Unique name of the blueprint, by which it may be referenced and invoked in the Dashboard."
     },
     "description": {
       "type": "string",
@@ -20,7 +20,7 @@
     },
     "weight": {
       "type": "integer",
-      "description": "An integer to help sort blueprints in the Dashboard."
+      "description": "Integer to help sort blueprints in the Dashboard."
     },
     "tags": {
       "type": "array",
@@ -34,13 +34,13 @@
     },
     "workflow-templates": {
       "type": "array",
-      "description": "An array of one or more workflows that will be generated when using this blueprint.",
+      "description": "Array of one or more workflows that will be generated when using this blueprint.",
       "items": {
         "type": "object",
         "properties": {
           "name": {
             "type": "string",
-            "description": "The name of the workflow."
+            "description": "Name of the workflow."
           },
           "description": {
             "type": "string",
@@ -52,11 +52,11 @@
           },
           "uri": {
             "type": "uri",
-            "description": "The URI in GitHub of the workflow template used to generate the workflow."
+            "description": "URI in GitHub of the workflow template used to generate the workflow."
           },
           "branch": {
             "type": "string",
-            "description": "The repository branch on which the workflow operates."
+            "description": "Repository branch on which the workflow operates."
           },
           "icon": {
             "type": "string",
