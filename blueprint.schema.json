@@ -51,7 +51,8 @@
             "description": "Longer explanation of what the workflow does. May contain markdown."
           },
           "uri": {
-            "type": "uri",
+            "type": "string",
+            "format": "uri-reference",
             "description": "URI in GitHub of the workflow template used to generate the workflow."
           },
           "branch": {
@@ -62,9 +63,9 @@
             "type": "string",
             "description": "Optional icon code from either https://icons.getbootstrap.com or https://fontawesome.com/icons or https://fontawesome.com/icons to provide a quick visual reference of the workflow for blueprint users."
           },
-          "required": [ "uri", "branch" ],
           "uniqueItems": true
-        }
+        },
+        "required": [ "uri", "branch" ]
       },
       "minItems": 1
     }
