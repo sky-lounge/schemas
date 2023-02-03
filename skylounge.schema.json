@@ -7,9 +7,14 @@
   "type": "object",
   "properties": {
     "blueprint-uri": {
-      "type": "string",
-      "format": "uri-reference",
-      "description": "The URI in GitHub of the `blueprint.yml` file for this repository. For example: `sky-lounge/public-skylounge-library/blueprints/hello-skylounge/blueprint.yml`."
+      "oneOff": [
+        { "type": "null" },
+        {
+          "type": "string",
+          "format": "uri-reference",
+          "description": "The URI in GitHub of the `blueprint.yml` file for this repository. For example: `sky-lounge/public-skylounge-library/blueprints/hello-skylounge/blueprint.yml`."
+        }
+      ]
     },
     "workflows": {
       "type": "array",
@@ -47,46 +52,71 @@
                         "minLength": 1
                       },
                       "uri": {
-                        "type": "string",
-                        "format": "uri-reference",
-                        "description": "URI in GitHub defining the `skylounge-step` to be applied."
-                      },
-                      "params": {
-                        "type": "object",
-                        "description": "A dictionary of parameters to be configured for this step. Parameter names and values can be any string.",
-                        "patternProperties": {
-                          "..*": {
-                            "type": "string"
+                        "oneOff": [
+                          { "type": "null" },
+                          {
+                            "type": "string",
+                            "format": "uri-reference",
+                            "description": "URI in GitHub defining the `skylounge-step` to be applied."
                           }
-                        }
+                        ]
                       }
                     },
                     "required": [ "step", "uri"]
                   },
                   "uniqueItems": true
-                }
-              }
-            },
-            "params": {
-              "type": "object",
-              "description": "A dictionary of parameters to be configured for this job. Parameter names and values can be any string.",
-              "patternProperties": {
-                "..*": {
-                  "type": "string"
+                },
+                "uri": {
+                  "oneOff": [
+                    { "type": "null" },
+                    {
+                      "type": "string",
+                      "format": "uri-reference",
+                      "description": "URI in GitHub defining the `skylounge-job` to be applied."
+                    }
+                  ]
+                },
+                "params": {
+                  "type": "object",
+                  "description": "A dictionary of parameters to be configured for this job. Parameter names and values can be any string.",
+                  "patternProperties": {
+                    "..*": {
+                      "oneOff": [
+                        { "type": "string" },
+                        { "type": "null" }
+                      ]
+                    }
+                  }
                 }
               }
             },
             "uniqueItems": true
+          },
+          "params": {
+            "type": "object",
+            "description": "A dictionary of parameters to be configured for this workflow. Parameter names and values can be any string.",
+            "patternProperties": {
+              "..*": {
+                "oneOff": [
+                  { "type": "string" },
+                  { "type": "null" }
+                ]
+              }
+            }
           }
         }
-      }
+      },
+      "uniqueItems": true
     },
     "params": {
       "type": "object",
       "description": "A dictionary of global parameters to be configured. Parameter names and values can be any string.",
       "patternProperties": {
         "..*": {
-          "type": "string"
+          "oneOff": [
+            { "type": "string" },
+            { "type": "null" }
+          ]
         }
       }
     }
